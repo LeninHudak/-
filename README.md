@@ -130,7 +130,7 @@
     border-radius: 8px;
     background: #ffe0ea center/cover no-repeat;
     margin-bottom: 10px;
-    background-image: linear-gradient(135deg, #ffb3c8, #ff4d8d);
+    background-color: #ffd6e2;
   }
 
   .note .title {
@@ -211,19 +211,19 @@
 
 <div id="notesScreen">
   <h1>Love is…</h1>
-  <div class="notes-grid" id="notesGrid"><!-- JS заполнит --></div>
+  <div class="notes-grid" id="notesGrid"></div>
   <button id="backBtn">← обратно к сердцу</button>
 </div>
 
 <script>
 /* ============ НАСТРОЙКИ ============ */
+/* Коты берутся с cataas.com — каждый со своим v=..., чтобы были разные */
 const NOTES = [
-  { photo: "photo1.webp", title: "Love is…", text: "…твоя улыбка, которая делает мой день лучше." },
-  { photo: "photo2.webp", title: "Love is…", text: "…обнимашки, когда холодно и грустно." },
-  { photo: "photo3.webp", title: "Love is…", text: "…мы вместе. И пусть весь мир подождёт." },
-  { photo: "photo4.webp", title: "Love is…", text: "…ты. Просто ты. 💕" },
-]
-;
+  { photo: "https://cataas.com/cat/cute?width=800&height=800&v=11", title: "Love is…", text: "…твоя улыбка, которая делает мой день лучше." },
+  { photo: "https://cataas.com/cat/cute?width=800&height=800&v=22", title: "Love is…", text: "…обнимашки, когда холодно и грустно." },
+  { photo: "https://cataas.com/cat/cute?width=800&height=800&v=33", title: "Love is…", text: "…мы вместе. И пусть весь мир подождёт." },
+  { photo: "https://cataas.com/cat/cute?width=800&height=800&v=44", title: "Love is…", text: "…ты. Просто ты. 💕" },
+];
 /* ==================================== */
 
 const canvas = document.getElementById('canvas');
@@ -302,7 +302,6 @@ function burstHearts(cx, cy, count = 40) {
 function tick() {
   ctx.clearRect(0, 0, W, H);
 
-  /* Автоспавн */
   if (flyingHearts.length < MAX_HEARTS && Math.random() < 0.15) spawnHeart();
 
   for (let i = flyingHearts.length - 1; i >= 0; i--) {
@@ -338,11 +337,11 @@ const backBtn = document.getElementById('backBtn');
 /* Строим бумажки */
 function buildNotes() {
   notesGrid.innerHTML = '';
-  NOTES.forEach((n, i) => {
+  NOTES.forEach((n) => {
     const el = document.createElement('div');
     el.className = 'note';
     el.innerHTML = `
-      <div class="photo" style="background-image:url('${n.photo}'), linear-gradient(135deg,#ffb3c8,#ff4d8d)"></div>
+      <div class="photo" style="background-image:url('${n.photo}')"></div>
       <div class="title">${n.title}</div>
       <div class="text">${n.text}</div>
     `;
@@ -387,7 +386,6 @@ bigHeart.addEventListener('touchstart', (e) => {
 
 backBtn.addEventListener('click', closeNotes);
 
-/* Вибрация на iPhone (если поддерживается) */
 if (navigator.vibrate) {
   bigHeart.addEventListener('touchstart', () => navigator.vibrate([10, 30, 10]));
 }
